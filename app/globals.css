@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 15%;
+    --primary: 222 83% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 30% 95%;
+    --secondary-foreground: 222 50% 40%;
+    --muted: 222 20% 95%;
+    --muted-foreground: 222 10% 45%;
+    --accent: 222 70% 95%;
+    --accent-foreground: 222 70% 45%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 15% 90%;
+    --input: 222 15% 90%;
+    --ring: 222 83% 55%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+  }
+  .card {
+    border-radius: var(--radius);
+  }
+  button,
+  .button {
+    border-radius: calc(var(--radius) - 0.25rem);
+    font-weight: 600;
+  }
+}
+
