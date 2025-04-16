@@ -40,7 +40,7 @@ import {
 } from "./utils";
 import { Tag } from "@/components/ui/tag";
 import { UseMutateFunction } from "@tanstack/react-query";
-
+import toWav from 'audiobuffer-to-wav';
 interface PhraseCardContainerProps {
   phraseCard?: CardReadAloud;
   isLoadingCards: boolean;
@@ -93,31 +93,57 @@ export default function PhraseCardContainer({
     },
     [setExpandedWords]
   );
-
+  
+  const blobToBase64 = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          resolve(reader.result.toString());
+        } else {
+          reject("Failed to convert blob to base64.");
+        }
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+  
+  
   const captureAudioAndConvertToBase64 = async (): Promise<string | null> => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
+      const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' }); // webm para compatibilidade
       const audioChunks: Blob[] = [];
-      setMediaRecorder(recorder);
-
+  
       return new Promise((resolve, reject) => {
         recorder.ondataavailable = (event) => {
           audioChunks.push(event.data);
         };
-
+  
         recorder.onstop = async () => {
-          const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64Audio = reader.result?.toString().split(",")[1] || null;
-            resolve(base64Audio);
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(audioBlob);
+          try {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const arrayBuffer = await audioBlob.arrayBuffer();
+            const audioContext = new AudioContext();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+  
+            const wavBuffer = toWav(audioBuffer);
+            const wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+  
+            const audioBase64 = await blobToBase64(wavBlob);
+            const base64Only = audioBase64.split(",")[1]; 
+            resolve(base64Only);
+          } catch (err) {
+            reject(err);
+          }
         };
-
+  
+        recorder.onerror = reject;
+  
         recorder.start();
+  
+        setTimeout(() => recorder.stop(), 3000);
       });
     } catch (error) {
       console.error("Error capturing audio:", error);

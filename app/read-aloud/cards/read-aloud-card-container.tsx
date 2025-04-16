@@ -73,7 +73,6 @@ export default function ReadAloudCardsContainer({
   ? cardsReadAloud
   : Object.values(cardsReadAloud || {});
   
-  console.log('cardsReadAloud: ', cardsReadAloud);
   const filteredCards =
     selectedCategory === "all"
       ? normalizedCards

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { format } from "date-fns";
+import dayjs from 'dayjs'
 import { ptBR } from "date-fns/locale";
 import Cookies from "js-cookie";
 // Hero Icons imports
@@ -106,9 +107,7 @@ export default function Home() {
           className={`w-3 h-3 gap-5 rounded-sm ${getColorClass(
             dayData?.count || 0
           )}`}
-          title={`${format(new Date(dateStr), "dd 'de' MMMM", {
-            locale: ptBR,
-          })}: ${dayData ? dayData.count : 0} atividades`}
+          title={`${dayjs(dateStr).endOf("day").format("D [de] MMMM")}: ${dayData ? dayData.count : 0} atividades`}
         />
       );
     }
@@ -136,18 +135,18 @@ export default function Home() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <div className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+          {/* <div className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
             <StarIcon className="h-4 w-4" />
             <span>Level: Intermediate</span>
           </div>
           <div className="bg-amber-500/10 text-amber-500 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
             <AwardIcon className="h-4 w-4" />
             <span>{totalXp} XP</span>
-          </div>
-          <div className="bg-green-500/10 text-green-500 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+          </div> */}
+          {/* <div className="bg-green-500/10 text-green-500 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
             <CalendarIcon className="h-4 w-4" />
             <span>{streak} Day Streak</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -197,18 +196,18 @@ export default function Home() {
                       Days practiced
                     </div>
                   </div>
-                  <div className="bg-card/50 backdrop-blur-sm p-3 rounded-lg">
+                  {/* <div className="bg-card/50 backdrop-blur-sm p-3 rounded-lg">
                     <div className="text-2xl font-bold">{minutesToday}</div>
                     <div className="text-sm text-muted-foreground">
                       Minutes today
                     </div>
-                  </div>
-                  <div className="bg-card/50 backdrop-blur-sm p-3 rounded-lg">
+                  </div> */}
+                  {/* <div className="bg-card/50 backdrop-blur-sm p-3 rounded-lg">
                     <div className="text-2xl font-bold">{totalXp}</div>
                     <div className="text-sm text-muted-foreground">
                       Total XP
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -357,20 +356,20 @@ export default function Home() {
               </div>
               </div>
               <div className="bg-card/50 backdrop-blur-sm p-3 rounded-lg">
-              <div className="font-medium text-muted-foreground">
+              {/* <div className="font-medium text-muted-foreground">
                 Current streak:
               </div>
               <div className="font-bold text-primary text-xl">
                 {streak} days
-              </div>
+              </div> */}
               </div>
               <div className="bg-card/50 backdrop-blur-sm p-3 rounded-lg">
-              <div className="font-medium text-muted-foreground">
+              {/* <div className="font-medium text-muted-foreground">
                 Best streak:
               </div>
               <div className="font-bold text-primary text-xl">
                 {bestStreak} days
-              </div>
+              </div> */}
               </div>
             </div>
           </div>
