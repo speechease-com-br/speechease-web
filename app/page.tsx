@@ -115,14 +115,7 @@ export default function Home() {
     return cells;
   };
 
-  useEffect(() => {
-    if (!token) {
-      router.push("/login");
-    } else {
-      router.push("/");
-    }
-  }, [router]);
-
+  
   return (
     <div className="container py-8">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
