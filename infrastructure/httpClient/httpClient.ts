@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { HttpClient, HttpRequest, HttpResponse } from "./types";
 
 export class AxiosHttpClient implements HttpClient {
-  private apiUrl = process.env.SPEECH_EASE_API_URL;
+  private apiUrl = 'https://api.speechease.com.br/api';
   async request(data: HttpRequest) {
     let axiosResponse: AxiosResponse<any, any> | undefined;
     try {
