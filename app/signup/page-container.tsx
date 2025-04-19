@@ -73,7 +73,7 @@ export default function LoginPage({
   loginResponse,
   onCreateAccount,
 }: LoginProps) {
-  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  const randomQuote = quotes[0];
 
   const onSubmit = (data: any) => {
     onCreateAccount(data)

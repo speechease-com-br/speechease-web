@@ -113,7 +113,7 @@ export default function PhraseCardContainer({
   const captureAudioAndConvertToBase64 = async (): Promise<string | null> => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' }); // webm para compatibilidade
+      const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       const audioChunks: Blob[] = [];
   
       return new Promise((resolve, reject) => {
@@ -143,7 +143,7 @@ export default function PhraseCardContainer({
   
         recorder.start();
   
-        setTimeout(() => recorder.stop(), 3000);
+        setTimeout(() => recorder.stop(), 15000);
       });
     } catch (error) {
       console.error("Error capturing audio:", error);

@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CardReadAloud } from "@/main/entities/card-read-aloud.type";
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-
+import z from 'zod';
 interface DialogProps {
   isOpen: boolean;
   onClose?: () => void;
@@ -73,10 +73,12 @@ export const DialogCard: React.FC<DialogProps> = ({
             <FormField
               control={form.control}
               name="englishText"
+              rules={{ maxLength: 1000 }}
               render={({ field }) => (
                 <Textarea
                   required
-                  placeholder="Enter the English phrase"
+                  maxLength={1000}
+                  placeholder="Enter the English phrase (minimum 1000 characters required)"
                   {...field}
                 />
               )}

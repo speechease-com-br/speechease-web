@@ -11,19 +11,19 @@ import { CardReadAloud } from "@/main/entities/card-read-aloud.type";
 import { reactQueryClient } from "@/main/ReactQueryContext/ReactQueryContext";
 import { CardsDataContext } from "./contexts/read-aloud-card-context";
 import { httpActivitie } from "@/infrastructure/activitie";
+import z from "zod";
 
 const REQUEST_MESSAGES = {
-  LOGIN_SUCCESS:
-    "Login realizado com sucesso! Redirecionando para a tela inicial.",
-  UNKNOWN_ERROR: "Ocorreu um erro desconhecido. Por favor, tente novamente.",
-  EDIT_SUCCESS: "Card editado com sucesso!",
-  DELETE_SUCCESS: "Card excluído com sucesso!",
-  CREATE_SUCSESS: "Card criado com sucesso!",
+  LOGIN_SUCCESS: "Login successful! Redirecting to the home screen.",
+  UNKNOWN_ERROR: "An unknown error occurred. Please try again.",
+  EDIT_SUCCESS: "Card successfully edited!",
+  DELETE_SUCCESS: "Card successfully deleted!",
+  CREATE_SUCSESS: "Card successfully created!",
 };
 
 export enum QueryKeys {
   CARDS = "cards",
-  CARD = "card"
+  CARD = "card",
 }
 
 export type ErrorResponse = {
@@ -31,6 +31,22 @@ export type ErrorResponse = {
   code: string;
   response: { data: { body: string } };
 };
+
+export const cardReadAloudSchema = z.object({
+  englishText: z
+    .string()
+    .min(1000, { message: "The phrase must be at least 1000 characters long" })
+    .max(5000, { message: "The phrase must be at most 5000 characters" }),
+  translation: z.string().optional(),
+  category: z.enum(["daily", "business", "travel", "academic"], {
+    required_error: "Category is required",
+  }),
+  difficulty: z.enum(["easy", "medium", "hard"], {
+    required_error: "Difficulty is required",
+  }),
+});
+
+export type cardReadAloud = z.infer<typeof cardReadAloudSchema>;
 
 export default function PhraseCardPage() {
   const { user } = useUser();
@@ -68,10 +84,11 @@ export default function PhraseCardPage() {
     },
   });
 
-  const { mutate: createRegisterActivitie, isPending: isRegisteringActivitie } = useMutation({
-    mutationFn: (newCard: any) =>
-      httpActivitie.register({ ...newCard, userId }),
-  });
+  const { mutate: createRegisterActivitie, isPending: isRegisteringActivitie } =
+    useMutation({
+      mutationFn: (newCard: any) =>
+        httpActivitie.register({ ...newCard, userId }),
+    });
 
   const { mutate: editPhraseCard, isPending: isEditingCard } = useMutation({
     mutationFn: (value: CardReadAloud) => httpCardService.edit({ ...value }),
