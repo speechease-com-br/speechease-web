@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/presentation/components/ui/card";
 import Link from "next/link";
 import { format } from "date-fns";
 import dayjs from 'dayjs'
@@ -25,10 +25,10 @@ import {
   ClockIcon,
   CalendarIcon,
 } from "@heroicons/react/24/outline";
-import { useUser } from "@/main/UserContext/UserContext";
+import { useAuth } from "@/presentation/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { dashboardService } from "@/infrastructure/dashboard-infra";
+import { DIContainer } from "@/infrastructure/di/Container";
 
 export type ChartYearEntry = {
   date: string;
@@ -61,12 +61,14 @@ const months = [
 
 export default function Home() {
   const router = useRouter();
-  const token = Cookies.get("speech-ease-auth");
+  const { user } = useAuth();
+  const container = DIContainer.getInstance();
+  const dashboardUseCases = container.getDashboardUseCases();
 
-  const { data: user } = useQuery({
-    queryKey: ["me"],
-    enabled: !!token,
-    queryFn: () => dashboardService.me(token as string),
+  const { data: dashboardData } = useQuery({
+    queryKey: ["dashboard", "data"],
+    enabled: !!user,
+    queryFn: () => dashboardUseCases.getDashboardData(),
   });
 
   const chartYear: ChartYearEntry[] =

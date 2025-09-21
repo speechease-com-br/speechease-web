@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/presentation/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,16 +6,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { FormField } from "@/components/ui/form";
+} from "@/presentation/components/ui/dialog";
+import { FormField } from "@/presentation/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/presentation/components/ui/select";
+import { Textarea } from "@/presentation/components/ui/textarea";
 import { CardReadAloud } from "@/main/entities/card-read-aloud.type";
 import React from "react";
 import { UseFormReturn } from "react-hook-form";

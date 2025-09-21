@@ -1,13 +1,13 @@
-import { HttpResponse } from "@/infrastructure/httpClient/types";
-import { CardReadAloud } from "@/main/entities/card-read-aloud.type";
+import { HttpResponse } from "@/infrastructure/http/types";
+import { CardReadAloud } from "@/domain/entities/card-read-aloud.type";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "../page";
-import { httpCardService } from "@/infrastructure/cards";
+import { HttpCardRepository } from "@/infrastructure/repositories/cards-infra";
 import { createContext, useContext } from "react";
-import { useUser } from "@/main/UserContext/UserContext";
+import { useAuth } from "@/presentation/hooks/useAuth";
 
 type CardsDataContextType = {
-    data: HttpResponse<CardReadAloud[]> | undefined;
+    data: CardReadAloud[] | undefined;
     isLoading: boolean;
     error: unknown;
   };
@@ -15,13 +15,14 @@ type CardsDataContextType = {
   export const CardsDataContext = createContext<CardsDataContextType | undefined>(undefined);
   
   export const CardsDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { user } = useUser();
-    const userId = user?.body?.data?.id;
+    const { user } = useAuth();
+    const userId = user?.id;
+    const cardRepository = new HttpCardRepository();
 
     const { data, isLoading: isLoadingCards, error } = useQuery({
       queryKey: [QueryKeys.CARDS],
       enabled: !!userId,
-      queryFn: () => httpCardService.getAll(userId),
+      queryFn: () => cardRepository.getCards(),
     });
   
     const isLoadingArray = [isLoadingCards];

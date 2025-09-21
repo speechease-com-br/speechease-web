@@ -8,17 +8,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+} from "@/presentation/components/ui/card";
+import { Button } from "@/presentation/components/ui/button";
+import { Badge } from "@/presentation/components/ui/badge";
+import { Dialog, DialogContent } from "@/presentation/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/presentation/components/ui/select";
 import { Mic, Plus, Trash2, Edit, ArrowRight } from "lucide-react";
 import {
   AlertDialog,
@@ -30,11 +30,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { CardReadAloud } from "@/main/entities/card-read-aloud.type";
+} from "@/presentation/components/ui/alert-dialog";
+import { CardReadAloud } from "@/domain/entities/card-read-aloud.type";
 import { UseFormReturn } from "react-hook-form";
 import { DialogCard } from "./components/dialog";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/presentation/components/ui/skeleton";
 import { getCategoryIcon, getDifficultyColor } from "./utils";
 import { UseMutateFunction } from "@tanstack/react-query";
 

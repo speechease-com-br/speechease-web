@@ -1,25 +1,54 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query";
-import { CardsDataContext } from "./cards/contexts/read-aloud-card-context";
+import { useReadAloudViewModel } from "@/presentation/view-models/useReadAloudViewModel";
+import { useAuthGuard } from "@/presentation/hooks/useAuthGuard";
+import { useAuth } from "@/presentation/hooks/useAuth";
 import PracticeAllReadAloudCardContainer from "./practice-all-read-aloud-container";
-import { QueryKeys } from "./cards/page";
-import { httpCardService } from "@/infrastructure/cards";
-import { useUser } from "@/main/UserContext/UserContext";
 
 export default function PracticeAllReadAloudPage() {
-  const { user } = useUser();
-  const userId = user?.body?.data?.id;
-
-  const {
-    data,
-    isLoading: isLoadingCards,
-    error,
-  } = useQuery({
-    queryKey: [QueryKeys.CARDS],
-    enabled: !!userId,
-    queryFn: () => httpCardService.getAll(userId),
-  });
+  // Proteger a página
+  const { canAccess } = useAuthGuard();
   
-  return <PracticeAllReadAloudCardContainer readAloudPhraseCard={data?.body.data} />;
+  // Obter dados do usuário
+  const { user } = useAuth();
+  
+  // Usar o ViewModel de read-aloud
+  const {
+    state,
+    actions,
+    currentCard,
+    isLoading,
+    error,
+  } = useReadAloudViewModel();
+
+  if (!canAccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Verificando autenticação...</div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Carregando exercícios...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center text-red-500">
+          Erro ao carregar exercícios: {error.message}
+        </div>
+      </div>
+    );
+  }
+
+  // Converter dados para o formato esperado pelo container
+  const readAloudPhraseCard = currentCard ? [currentCard] : [];
+  
+  return <PracticeAllReadAloudCardContainer readAloudPhraseCard={readAloudPhraseCard} />;
 }

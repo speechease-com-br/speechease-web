@@ -10,10 +10,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+} from "@/presentation/components/ui/card";
+import { Button } from "@/presentation/components/ui/button";
+import { Badge } from "@/presentation/components/ui/badge";
+import { Progress } from "@/presentation/components/ui/progress";
 import {
   SpeakerWaveIcon,
   MicrophoneIcon,
@@ -38,7 +38,7 @@ import {
   getProgressColor,
   getScoreColor,
 } from "./utils";
-import { Tag } from "@/components/ui/tag";
+import { Tag } from "@/presentation/components/ui/tag";
 import { UseMutateFunction } from "@tanstack/react-query";
 import toWav from 'audiobuffer-to-wav';
 interface PhraseCardContainerProps {

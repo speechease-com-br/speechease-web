@@ -1,13 +1,10 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "./globals.css";
-import TopNavigation from "@/components/top-navigation";
-import { AuthProvider } from "@/components/auth-provider";
-import ReactQueryProvider from "@/main/ReactQueryContext/ReactQueryContext";
-import "./globals.css";
+import { AppProviders } from "@/presentation/providers/AppProviders";
 import { ToastContainer } from "react-toastify";
-import { UserProvider } from "@/main/UserContext/UserContext";
+import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -35,21 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ReactQueryProvider>
-        <UserProvider>
+      <AppProviders>
         <body className={`${poppins.className} antialiased`}>
-            <ToastContainer />
-            <AuthProvider>
-              <div className="flex flex-col h-screen">
-                <TopNavigation />
-                <main className="flex-1 overflow-auto">{children}</main>
-              </div>
-            </AuthProvider>
-          </body> 
-        </UserProvider>
-      </ReactQueryProvider>
+          <ToastContainer />
+          {children}
+        </body> 
+      </AppProviders>
     </html>
   );
 }
-
-

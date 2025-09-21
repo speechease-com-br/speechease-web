@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/presentation/components/ui/card"
+import { Button } from "@/presentation/components/ui/button"
+import { Badge } from "@/presentation/components/ui/badge"
+import { Progress } from "@/presentation/components/ui/progress"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/presentation/components/ui/tabs"
+import { useProgressMapViewModel } from "@/presentation/view-models/useProgressMapViewModel"
+import { useAuthGuard } from "@/presentation/hooks/useAuthGuard"
 import {
   TrendingUp,
   Mic,
@@ -22,7 +24,45 @@ import {
 } from "lucide-react"
 
 export default function ProgressMapPage() {
+  // Proteger a página
+  const { canAccess } = useAuthGuard();
+  
+  // Usar o ViewModel de progress-map
+  const {
+    state,
+    actions,
+    progressData,
+    isLoading,
+    error,
+  } = useProgressMapViewModel();
+
   const [activeTab, setActiveTab] = useState("overview")
+
+  if (!canAccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Verificando autenticação...</div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Carregando progresso...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center text-red-500">
+          Erro ao carregar progresso: {error.message}
+        </div>
+      </div>
+    );
+  }
 
   // Sample data for the progress map
   const skillsData = [

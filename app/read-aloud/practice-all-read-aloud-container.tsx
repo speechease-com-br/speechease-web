@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/presentation/components/ui/card"
+import { Button } from "@/presentation/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/presentation/components/ui/tabs"
+import { Badge } from "@/presentation/components/ui/badge"
 import {
   Mic,
   Volume2,
@@ -19,9 +19,9 @@ import {
   Check,
   AlertCircle,
 } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
+import { Progress } from "@/presentation/components/ui/progress"
 import { useTheme } from "next-themes"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/presentation/components/ui/tooltip"
 import { useCardsData } from "./cards/contexts/read-aloud-card-context"
 import { CardReadAloud } from "@/main/entities/card-read-aloud.type"
 
